@@ -1,7 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  content: MyText
+  user: cassandra
+  content: A super long status that is over 150 characters and should not be saved. I am learning how to code at the moment and it's incredibly hot to stay infront of the laptop but I will persevere.
 
-two:
-  content: MyText
