@@ -3,3 +3,9 @@ cassandra:
   last_name: "Contiago"
   email: "ups85@yahoo.com"
   profile_name: "Cassie"
+
+amanda:
+  first_name: "Amanda"
+  last_name: "Wang"
+  email: "amanda@yahoo.com"
+  profile_name: "Amy"
