@@ -3,6 +3,7 @@ require 'test_helper'
 class StatusesControllerTest < ActionController::TestCase
   setup do
     @status = statuses(:one)
+    @user = users(:cassandra)
   end
 
   test "should get index" do
@@ -11,14 +12,29 @@ class StatusesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:statuses)
   end
 
-  test "should get new" do
+  test "should be redirected when not logged in" do
     get :new
-    assert_response :success
+    assert_response :redirect
+    assert_redirected_to new_user_session_path
   end
 
-  test "should create status" do
+  test "should render the new page when logged in" do
+    sign_in @user
+    get :new
+    assert :success    
+  end
+
+  test "should be logged in to post a status" do
+    post :create, status: {content: @status.content }
+    assert_response :redirect
+    assert_redirected_to new_user_session_path
+  end
+
+  test "should create status when logged in" do
+    sign_in @user
+
     assert_difference('Status.count') do
-      post :create, status: { content: @status.content, name: @status.name }
+      post :create, status: { content: "Good night everyone." }
     end
 
     assert_redirected_to status_path(assigns(:status))
@@ -29,13 +45,27 @@ class StatusesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit" do
+  test "should be logged in to edit a status" do
+    put :edit, id: @status
+    assert_response :redirect
+    assert_redirected_to new_user_session_path
+  end
+
+  test "should get edit when logged in" do
+    sign_in @user
     get :edit, id: @status
     assert_response :success
   end
 
-  test "should update status" do
-    put :update, id: @status, status: { content: @status.content, name: @status.name }
+  test "should be logged in to update a status" do
+    put :update, id: @status, status: { content: "I am hungry." }
+    assert_response :redirect
+    assert_redirected_to new_user_session_path
+  end
+
+  test "should update status when logged in" do
+    sign_in @user
+    put :update, id: @status, status: { content: "I am really hungry." }
     assert_redirected_to status_path(assigns(:status))
   end
 
